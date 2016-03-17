@@ -1,0 +1,14 @@
+type profilePicture {
+  uri: String
+  size: Int
+}
+
+type Query {
+  user(id: Int): User
+}
+
+type User {
+  id: Int
+  name: String
+  profilePhoto(size: Int): profilePicture
+}
