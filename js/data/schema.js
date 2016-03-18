@@ -8,22 +8,22 @@ import {
 } from 'graphql'
 
 
-const abdaanPicture = {
+const abudaanPicture = {
   uri: 'taart.jpg',
   size: 32
 }
 
 const abudaan = {
-  id: 23,
+  id: '23',
   name: 'abudaan',
-  profilePicture: {
-    uri: 'taart.jpg',
-    size: 32
-  }
+  // profilePicture: {
+  //   uri: 'taart.jpg',
+  //   size: 32
+  // }
 }
 
 const userData = {
-  23: abudaan
+  '23': abudaan
 }
 
 const getProfilePicture = function(size){
@@ -37,7 +37,7 @@ const getUser = function(id){
 const profilePicture = new GraphQLObjectType({
   name: 'profilePicture',
   description: 'Profile picture',
-  fields: () => ({
+  fields: {
     uri: {
       type: GraphQLString,
       description: 'uri of picture'
@@ -46,7 +46,7 @@ const profilePicture = new GraphQLObjectType({
       type: GraphQLInt,
       description: 'size of picture'
     }
-  })
+  }
 })
 
 
@@ -55,7 +55,7 @@ const userType = new GraphQLObjectType({
   description: 'A user.',
   fields: {
     id: {
-      type: GraphQLInt,
+      type: GraphQLString,
       description: 'The id of the user.',
     },
     name: {
@@ -70,7 +70,7 @@ const userType = new GraphQLObjectType({
           type: GraphQLInt
         }
       },
-      resolve: (root, {size}) => getProfilePicture
+      resolve: (root, {size}) => getProfilePicture(size)
     },
     // profilePicture: {
     //   type: profilePicture,
@@ -87,7 +87,7 @@ const queryType = new GraphQLObjectType({
       type: userType,
       args: {
         id: {
-          type: GraphQLInt
+          type: GraphQLString
         }
       },
       resolve: (root, {id}) => getUser(id)

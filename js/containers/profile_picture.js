@@ -17,8 +17,9 @@ class ProfilePicture extends Component {
     //     <Slider onChange={value => this.setSize(value)} />
     //   </View>
     // );
+    console.log(user)
     return (
-      <div>{'aap' + user.profilePhoto.uri}</div>
+      <div>{'aap' + user.id}</div>
     );
   }
 
@@ -38,11 +39,22 @@ export default Relay.createContainer(ProfilePicture, {
   // For each of the props that depend on server data, we define a corresponding
   // key in `fragments`. Here, the component expects server data to populate the
   // `user` prop, so we'll specify the fragment from above as `fragments.user`.
+  // fragments: {
+  //   user: () => Relay.QL`
+  //     fragment on User {
+  //       profilePhoto(size: $size) {
+  //         uri,
+  //       },
+  //     }
+  //   `,
   fragments: {
     user: () => Relay.QL`
       fragment on User {
+        id,
+        name,
         profilePhoto(size: $size) {
           uri,
+          size
         },
       }
     `,

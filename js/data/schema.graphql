@@ -4,11 +4,11 @@ type profilePicture {
 }
 
 type Query {
-  user(id: Int): User
+  user(id: String): User
 }
 
 type User {
-  id: Int
+  id: String
   name: String
   profilePhoto(size: Int): profilePicture
 }
