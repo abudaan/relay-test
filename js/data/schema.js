@@ -31,7 +31,15 @@ const getProfilePicture = function(size){
 }
 
 const getUser = function(id){
-  return abudaan
+  //  return abudaan;
+  // setTimeout(() => {
+  //   return abudaan;
+  // }, 1000)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(abudaan);
+    }, 3000)
+  })
 }
 
 const profilePicture = new GraphQLObjectType({
@@ -80,9 +88,22 @@ const userType = new GraphQLObjectType({
   },
 })
 
+const boardType = new GraphQLObjectType({
+  name: 'Board',
+  description: 'A public board of this Pinterest account',
+  fields: {
+    id: {
+      type: GraphQLString
+    },
+    name: {
+      type: GraphQLString
+    }
+  }
+})
+
 const queryType = new GraphQLObjectType({
   name: 'Query',
-  fields: () => ({
+  fields: {
     user: {
       type: userType,
       args: {
@@ -91,8 +112,12 @@ const queryType = new GraphQLObjectType({
         }
       },
       resolve: (root, {id}) => getUser(id)
+    },
+    board: {
+      type: boardType,
+      resolve: () => {return {id: '12312413', name: 'My public Pinterest board'}}
     }
-  })
+  }
 })
 
 

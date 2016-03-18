@@ -23,13 +23,10 @@ document.addEventListener('DOMContentLoaded', function(){
       return Promise.all(queryRequests.map(
         queryRequest => {
           let query = queryRequest.getQueryString()
-          console.log(query)
-          console.log(queryRequest.getVariables())
           graphql(schema, query).then(result => {
             if(result.errors){
               queryRequest.reject(new Error(result.errors))
             }else{
-              //console.log(result.data)
               queryRequest.resolve({response: result.data})
             }
           })

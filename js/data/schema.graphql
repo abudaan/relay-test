@@ -1,3 +1,8 @@
+type Board {
+  id: String
+  name: String
+}
+
 type profilePicture {
   uri: String
   size: Int
@@ -5,6 +10,7 @@ type profilePicture {
 
 type Query {
   user(id: String): User
+  board: Board
 }
 
 type User {
