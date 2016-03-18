@@ -17,11 +17,12 @@ class ProfilePicture extends Component {
     //     <Slider onChange={value => this.setSize(value)} />
     //   </View>
     // );
-    console.log(user)
+    console.log(this.props.relay.variables)
     return (
       <div>
         {'aap:' + user.name}
         <img src={user.profilePhoto.uri} width={user.profilePhoto.size + 'px'} />
+        <button onClick={this.sendMutation}>click me</button>
       </div>
     );
   }
@@ -29,6 +30,10 @@ class ProfilePicture extends Component {
   // Update the size of the photo
   setSize(photoSize) {
     // TODO: Fetch the profile photo URI for the given size...
+  }
+
+  sendMutation(){
+    console.log('mutation')
   }
 }
 

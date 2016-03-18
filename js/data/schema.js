@@ -4,42 +4,59 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
+  GraphQLList,
   GraphQLNonNull
 } from 'graphql'
 
 
-const abudaanPicture = {
-  uri: 'taart.jpg',
-  size: 32
-}
-
-const abudaan = {
-  id: '23',
-  name: 'abudaan',
-  // profilePicture: {
-  //   uri: 'taart.jpg',
-  //   size: 32
-  // }
-}
-
 const userData = {
-  '23': abudaan
+  '23': {
+    id: '23',
+    name: 'sloth',
+    pictures: {
+      32: 'taart.jpg',
+      64: 'taart.jpg'
+    }
+  },
+  '24': {
+    id: '23',
+    name: 'rabbit',
+    pictures: {
+      '32': 'taart.jpg',
+      '64': 'taart.jpg'
+    }
+  },
+  '25': {
+    id: '25',
+    name: 'bear',
+    pictures: {
+      '32': 'taart.jpg',
+      '64': 'taart.jpg'
+    }
+  }
 }
 
-const getProfilePicture = function(size){
-  return abudaanPicture
+const getProfilePicture = function(user, size){
+  return {
+    uri: user.pictures[size],
+    size: size
+  }
 }
 
 const getUser = function(id){
-  //  return abudaan;
-  // setTimeout(() => {
-  //   return abudaan;
-  // }, 1000)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(abudaan);
-    }, 3000)
+      resolve(userData[id]);
+    }, 500)
   })
+}
+
+const getAllUserIds = function(){
+  let ids = []
+  for(let [key] of objectEntries(userData)){
+    ids.push(key)
+  }
+  return ids
 }
 
 const profilePicture = new GraphQLObjectType({
@@ -78,13 +95,8 @@ const userType = new GraphQLObjectType({
           type: GraphQLInt
         }
       },
-      resolve: (root, {size}) => getProfilePicture(size)
+      resolve: (root, {size}) => getProfilePicture(root, size)
     },
-    // profilePicture: {
-    //   type: profilePicture,
-    //   description: 'The profile picture of the user',
-    //   resolve: () => getProfilePicture(user),
-    // },
   },
 })
 
@@ -104,6 +116,10 @@ const boardType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
+    users: {
+      type: new GraphQLList(GraphQLString),
+      resolve: () => getAllUserIds()
+    },
     user: {
       type: userType,
       args: {

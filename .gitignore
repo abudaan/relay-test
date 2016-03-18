@@ -3,5 +3,5 @@ build
 node_modules
 npm-debug.log
 data/schema.graphql
-.idea/
+Gemfile.lock
 
