@@ -19,7 +19,10 @@ class ProfilePicture extends Component {
     // );
     console.log(user)
     return (
-      <div>{'aap' + user.id}</div>
+      <div>
+        {'aap:' + user.name}
+        <img src={user.profilePhoto.uri} width={user.profilePhoto.size + 'px'} />
+      </div>
     );
   }
 

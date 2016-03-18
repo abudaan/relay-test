@@ -2,9 +2,9 @@
 
 import fs from 'fs';
 import path from 'path';
-import { Schema } from '../js/data/schema';
-import { graphql }  from 'graphql';
-import { introspectionQuery, printSchema } from 'graphql/utilities';
+import {Schema} from '../js/data/schema';
+import {graphql}  from 'graphql';
+import {introspectionQuery, printSchema} from 'graphql/utilities';
 
 
 graphql(Schema, introspectionQuery).then(
