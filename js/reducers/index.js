@@ -52,7 +52,7 @@ function slider(state = {index: 0, interval: 6000}, action){
   }
 }
 
-function user(state = {userId: '23'}, action){
+function user(state = {userId: '25'}, action){
   switch(action.type){
     case actions.CHANGE_USER:
       return Object.assign({}, state, {userId: action.userId})

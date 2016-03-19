@@ -21,7 +21,7 @@ export default class App extends Component {
       <div>
         <RootContainer
           Component={ProfilePicture}
-          route={new ProfileRoute({userID: this.props.userId || 23})}
+          route={new ProfileRoute({userID: this.props.userId || store.users.userId})}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
         />
