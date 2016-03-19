@@ -1,9 +1,10 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Relay, {RootContainer} from 'react-relay'
-import ProfilePicture from './containers/profile_picture'
-import ProfileRoute from './profile_route'
+import Relay from 'react-relay'
+import {Provider} from 'react-redux'
+import App from './containers/app'
+import configureStore from './stores/configure_store'
 import networkLayer from './relay/network_layer'
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -11,12 +12,9 @@ document.addEventListener('DOMContentLoaded', function(){
   Relay.injectNetworkLayer(networkLayer)
 
   ReactDOM.render(
-    <RootContainer
-      Component={ProfilePicture}
-      route={new ProfileRoute({userID: '23'})}
-      renderLoading={() => (<div>{'loading...'}</div>)}
-      renderFailure={() => (<div>{'error'}</div>)}
-    />,
+    <Provider store={configureStore()}>
+      <App />
+    </Provider>,
     document.getElementById('app')
   )
 })

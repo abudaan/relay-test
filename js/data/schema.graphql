@@ -9,6 +9,7 @@ type profilePicture {
 }
 
 type Query {
+  users: Users
   user(id: String): User
   board: Board
 }
@@ -17,4 +18,8 @@ type User {
   id: String
   name: String
   profilePhoto(size: Int): profilePicture
+}
+
+type Users {
+  users: [User]
 }

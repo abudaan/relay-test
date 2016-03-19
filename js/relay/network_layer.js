@@ -8,6 +8,7 @@ const networkLayer = {
   },
 
   sendQueries(queryRequests) {
+
     return Promise.all(queryRequests.map(
       queryRequest => {
         let query = queryRequest.getQueryString()

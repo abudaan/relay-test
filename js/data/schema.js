@@ -14,24 +14,27 @@ const userData = {
     id: '23',
     name: 'sloth',
     pictures: {
-      32: 'taart.jpg',
-      64: 'taart.jpg'
+      32: './img/sloth32.jpg',
+      64: './img/sloth64.jpg',
+      128: './img/sloth128.jpg'
     }
   },
   '24': {
-    id: '23',
+    id: '24',
     name: 'rabbit',
     pictures: {
-      '32': 'taart.jpg',
-      '64': 'taart.jpg'
+      '32': './img/rabbit32.jpg',
+      '64': './img/rabbit64.jpg',
+      '128': './img/rabbit128.jpg',
     }
   },
   '25': {
     id: '25',
     name: 'bear',
     pictures: {
-      '32': 'taart.jpg',
-      '64': 'taart.jpg'
+      '32': './img/bear32.jpg',
+      '64': './img/bear64.jpg',
+      '128': './img/bear128.jpg'
     }
   }
 }
@@ -51,12 +54,12 @@ const getUser = function(id){
   })
 }
 
-const getAllUserIds = function(){
-  let ids = []
-  for(let [key] of objectEntries(userData)){
-    ids.push(key)
+const getAllUsers = function(){
+  let users = []
+  for(var key in userData){
+    users.push(userData[key])
   }
-  return ids
+  return {users}
 }
 
 const profilePicture = new GraphQLObjectType({
@@ -81,11 +84,11 @@ const userType = new GraphQLObjectType({
   fields: {
     id: {
       type: GraphQLString,
-      description: 'The id of the user.',
+      description: 'The id of the user.'
     },
     name: {
       type: GraphQLString,
-      description: 'The name of the user.',
+      description: 'The name of the user.'
     },
     profilePhoto: {
       type: profilePicture,
@@ -96,8 +99,18 @@ const userType = new GraphQLObjectType({
         }
       },
       resolve: (root, {size}) => getProfilePicture(root, size)
-    },
-  },
+    }
+  }
+})
+
+const usersType = new GraphQLObjectType({
+  name: 'Users',
+  description: 'List of all users.',
+  fields: {
+    users: {
+      type: new GraphQLList(userType)
+    }
+  }
 })
 
 const boardType = new GraphQLObjectType({
@@ -117,8 +130,8 @@ const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
     users: {
-      type: new GraphQLList(GraphQLString),
-      resolve: () => getAllUserIds()
+      type: usersType,
+      resolve: () => getAllUsers()
     },
     user: {
       type: userType,
