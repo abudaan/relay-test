@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 
 const mapStateToProps = function(state){
-  const {userId} = state
+  const {userId} = state.user
   return {
     userId
   }
@@ -19,7 +19,7 @@ const mapDispatchToProps = function(dispatch){
       if(optionId !== 'choose'){
         dispatch(selectUser(optionId))
       }else{
-        dispatch(selectUser())
+        //dispatch(selectUser())
       }
     }
   }
@@ -29,12 +29,15 @@ const mapDispatchToProps = function(dispatch){
 class UserSelector extends Component {
   render() {
     let users = this.props.users.users
-    let options = []
+    let options = [<option id={'choose'} key={'choose'}>{'select a user'}</option>]
     users.map((user) => {
-      options.push(<option id={user.id} key={user.id}>{user.name}</option>)
+      options.push(<option id={user.id} key={user.id} disabled={user.id === this.props.userId}>{user.name}</option>)
     })
     return (
-      <select onChange={this.props.selectUser}>
+      <select
+        onChange={this.props.selectUser}
+        //defaultValue={options[0]}
+      >
         {options}
       </select>
     )

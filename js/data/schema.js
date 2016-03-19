@@ -81,7 +81,7 @@ const profilePicture = new GraphQLObjectType({
 const userType = new GraphQLObjectType({
   name: 'User',
   description: 'A user.',
-  fields: {
+  fields: () => ({
     id: {
       type: GraphQLString,
       description: 'The id of the user.'
@@ -100,7 +100,7 @@ const userType = new GraphQLObjectType({
       },
       resolve: (root, {size}) => getProfilePicture(root, size)
     }
-  }
+  })
 })
 
 const usersType = new GraphQLObjectType({
