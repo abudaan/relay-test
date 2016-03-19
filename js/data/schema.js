@@ -50,7 +50,7 @@ const getUser = function(id){
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(userData[id]);
-    }, 500)
+    }, 2000)
   })
 }
 

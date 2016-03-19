@@ -21,7 +21,7 @@ class ProfilePicture extends Component {
       <div>
         {`[${user.id}]: ${user.name}`}
         <img src={user.profilePhoto.uri} width={user.profilePhoto.size + 'px'} />
-        <select onChange={(e) => this.setSize(e)}>
+        <select onChange={(e) => this.setSize(e)} disabled>
           {this._imageSizes}
         </select>
       </div>
@@ -32,7 +32,7 @@ class ProfilePicture extends Component {
     let options = e.target.options
     let optionId = options[e.target.selectedIndex].id
     this.props.relay.setVariables({
-      size: parseInt(optionId, 10)
+      size: parseInt(optionId, 10) // -> yields Error: Unknown type "ID".,Error: Cannot query field "node" on type "Query".
     })
   }
 
@@ -43,7 +43,7 @@ class ProfilePicture extends Component {
 
 export default Relay.createContainer(ProfilePicture, {
   initialVariables: {
-    size: 32
+    size: 128
   },
   fragments: {
     user: () => Relay.QL`
