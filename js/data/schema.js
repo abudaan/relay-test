@@ -70,7 +70,7 @@ const getProfilePicture = function(user, size){
 
 const getUser = function(userId){
   let u = new User(userData[userId])
-  console.log(userId, u)
+  //console.log(userId, u)
   //console.log(u)
   return u
 
@@ -143,7 +143,7 @@ const profilePicture = new GraphQLObjectType({
   name: 'profilePicture',
   description: 'Profile picture',
   fields: () => ({
-    id: globalIdField('ProfilePicture'),
+    //id: globalIdField('ProfilePicture'),
     uri: {
       type: GraphQLString,
       description: 'uri of picture'
@@ -153,7 +153,7 @@ const profilePicture = new GraphQLObjectType({
       description: 'size of picture'
     }
   }),
-  interfaces: [nodeInterface]
+  //interfaces: [nodeInterface]
 })
 
 
@@ -196,12 +196,12 @@ const usersType = new GraphQLObjectType({
   name: 'Users',
   description: 'List of all users.',
   fields: () => ({
-    id: globalIdField('Users'),
+    //id: globalIdField('Users'),
     users: {
       type: new GraphQLList(userType)
     }
   }),
-  interfaces: [nodeInterface]
+  //interfaces: [nodeInterface]
 })
 
 const boardType = new GraphQLObjectType({
@@ -220,7 +220,7 @@ const boardType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    node: nodeField,
+    //node: nodeField,
     users: {
       type: usersType,
       resolve: () => getAllUsers()

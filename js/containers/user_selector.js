@@ -28,7 +28,7 @@ const mapDispatchToProps = function(dispatch){
 @connect(mapStateToProps, mapDispatchToProps)
 class UserSelector extends Component {
   render() {
-    //console.log(this.props)
+    console.log(this.props)
     let users = this.props.users.users
     let options = [<option id={'choose'} key={'choose'}>{'select a user'}</option>]
     users.map((user) => {

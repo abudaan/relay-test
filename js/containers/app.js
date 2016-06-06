@@ -17,7 +17,7 @@ const mapStateToProps = function(state){
 @connect(mapStateToProps)
 export default class App extends Component {
   render() {
-    console.log(this.props.selectedId)
+    //console.log(this.props.selectedId)
     return (
       <div>
         <RootContainer
