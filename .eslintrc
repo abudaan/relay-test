@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "ecmaFeatures": {
     "jsx": true
@@ -10,11 +11,13 @@
   "globals": {
   },
   "plugins": [
-   "react"
+   "react",
+   "babel"
   ],
   "rules": {
     // Possible Errors
-    "comma-dangle": [2, "never"],
+    //"comma-dangle": [2, "never"],
+    "comma-dangle": 0,
     "no-cond-assign": 2,
     "no-console": 0,
     "no-constant-condition": 2,
@@ -53,7 +56,8 @@
     "no-caller": 2,
     "no-div-regex": 2,
     "no-else-return": 2,
-    "no-empty-label": 2,
+    //"no-empty-label": 2,
+    //"no-labels": 2,
     "no-eq-null": 2,
     "no-eval": 2,
     "no-extend-native": 2,
@@ -100,9 +104,10 @@
     "no-undef-init": 2,
     "no-undefined": 2,
     "no-unused-vars": 1,
-    "no-use-before-define": 2,
+    // "no-use-before-define": 2,
+    "no-use-before-define": 0,
     // Stylistic Issues
-    "indent": [2, 2, {
+    "indent": [1, 2, {
      "SwitchCase": 1
     }],
     "brace-style": 2,
@@ -159,6 +164,14 @@
     "max-params": 0,
     "max-statements": 0,
     "no-plusplus": 0,
+    "babel/generator-star-spacing": 1,
+    "babel/new-cap": 1,
+    "babel/array-bracket-spacing": 1,
+    "babel/object-curly-spacing": 1,
+    "babel/object-shorthand": 1,
+    "babel/arrow-parens": 0,
+    "babel/no-await-in-loop": 1,
+    "babel/flow-object-type": 1,
     "react/display-name": 1,
     "react/forbid-prop-types": 1,
     "react/jsx-boolean-value": 1,

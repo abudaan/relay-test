@@ -1,25 +1,30 @@
-type Board {
-  id: String
-  name: String
+schema {
+  query: Query
 }
 
-type profilePicture {
+interface Node {
+  id: ID!
+}
+
+type profilePicture implements Node {
+  id: ID!
   uri: String
   size: Int
 }
 
 type Query {
+  node(id: ID!): Node
   users: Users
-  user(id: String): User
-  board: Board
+  user(userId: Int): User
 }
 
 type User {
-  id: String
+  userId: Int
   name: String
   profilePhoto(size: Int): profilePicture
 }
 
-type Users {
+type Users implements Node {
+  id: ID!
   users: [User]
 }

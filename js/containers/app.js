@@ -8,26 +8,27 @@ import {connect} from 'react-redux'
 
 
 const mapStateToProps = function(state){
-  const {userId} = state.user
+  const {selectedId} = state.user
   return {
-    userId
+    selectedId
   }
 }
 
 @connect(mapStateToProps)
 export default class App extends Component {
   render() {
+    console.log(this.props.selectedId)
     return (
       <div>
         <RootContainer
-          Component={ProfilePicture}
-          route={new ProfileRoute({userID: this.props.userId || store.users.userId})}
+          Component={UserSelector}
+          route={new UserSelectorRoute()}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
         />
         <RootContainer
-          Component={UserSelector}
-          route={new UserSelectorRoute()}
+          Component={ProfilePicture}
+          route={new ProfileRoute({userID: this.props.selectedId})}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
         />

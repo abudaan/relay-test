@@ -3,7 +3,9 @@ import Relay from 'react-relay'
 export default class ProfileRoute extends Relay.Route {
   static queries = {
     user: () => Relay.QL`
-      query { user(id: $userID) }
+      query {
+        user(userId: $userID)
+      }
     `
   };
   static paramDefinitions = {

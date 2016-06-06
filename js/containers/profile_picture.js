@@ -12,16 +12,25 @@ class ProfilePicture extends Component {
 
   render() {
     var user = this.props.user
+    console.log(this.props)
     //console.log(this.props.relay.variables)
     if(user === null){
       return false
     }
 
+    // return (
+    //   {`[${user.id}]: ${user.name}`}
+    //   <div>
+    //     <img src={user.profilePhoto.uri} width={user.profilePhoto.size + 'px'} />
+    //     <select onChange={(e) => this.setSize(e)}>
+    //       {this._imageSizes}
+    //     </select>
+    //   </div>
+    // );
     return (
       <div>
-        {`[${user.id}]: ${user.name}`}
-        <img src={user.profilePhoto.uri} width={user.profilePhoto.size + 'px'} />
-        <select onChange={(e) => this.setSize(e)} disabled>
+        <img src={user.profilePhoto.uri} width={this.props.relay.variables.size + 'px'} />
+        <select onChange={(e) => this.setSize(e)}>
           {this._imageSizes}
         </select>
       </div>
@@ -48,13 +57,27 @@ export default Relay.createContainer(ProfilePicture, {
   fragments: {
     user: () => Relay.QL`
       fragment on User {
-        id,
-        name,
-        profilePhoto(size: $size) {
-          uri,
-          size
-        },
+        profilePhoto(size: $size){
+          uri
+        }
       }
     `,
+    // user: () => Relay.QL`
+    //   fragment on User {
+    //     profilePhoto(size: $size) {
+    //       uri,
+    //     },
+    //   }
+    // `,
+    // user: () => Relay.QL`
+    //   fragment on User {
+    //     id,
+    //     name,
+    //     profilePhoto(size: $size) {
+    //       uri,
+    //       size
+    //     },
+    //   }
+    // `,
   },
 });

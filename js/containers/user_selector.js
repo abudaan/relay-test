@@ -5,9 +5,9 @@ import {connect} from 'react-redux'
 
 
 const mapStateToProps = function(state){
-  const {userId} = state.user
+  const {selectedId} = state.user
   return {
-    userId
+    selectedId
   }
 }
 
@@ -28,10 +28,11 @@ const mapDispatchToProps = function(dispatch){
 @connect(mapStateToProps, mapDispatchToProps)
 class UserSelector extends Component {
   render() {
+    //console.log(this.props)
     let users = this.props.users.users
     let options = [<option id={'choose'} key={'choose'}>{'select a user'}</option>]
     users.map((user) => {
-      options.push(<option id={user.id} key={user.id} disabled={user.id === this.props.userId}>{user.name}</option>)
+      options.push(<option id={user.userId} key={user.userId} disabled={user.userId === this.props.selectedId}>{user.name}</option>)
     })
     return (
       <select
@@ -44,12 +45,13 @@ class UserSelector extends Component {
   }
 }
 
+
 export default Relay.createContainer(UserSelector, {
   fragments: {
     users: () => Relay.QL`
       fragment on Users {
         users {
-          id,
+          userId,
           name
         }
       }

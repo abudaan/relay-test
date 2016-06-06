@@ -8,5 +8,6 @@ export default class UserSelectorRoute extends Relay.Route {
       }
     `
   }
+
   static routeName = 'UserSelectorRoute';
 }
