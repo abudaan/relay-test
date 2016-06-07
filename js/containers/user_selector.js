@@ -15,7 +15,7 @@ const mapDispatchToProps = function(dispatch){
   return {
     selectUser: (e) => {
       let options = e.target.options
-      let optionId = options[e.target.selectedIndex].id
+      let optionId = parseInt(options[e.target.selectedIndex].id, 10)
       if(optionId !== 'choose'){
         dispatch(selectUser(optionId))
       }else{
@@ -28,10 +28,11 @@ const mapDispatchToProps = function(dispatch){
 @connect(mapStateToProps, mapDispatchToProps)
 class UserSelector extends Component {
   render() {
-    console.log(this.props)
+    //console.log(this.props)
     let users = this.props.users.users
     let options = [<option id={'choose'} key={'choose'}>{'select a user'}</option>]
     users.map((user) => {
+      //console.log(user.userId, this.props.selectedId)
       options.push(<option id={user.userId} key={user.userId} disabled={user.userId === this.props.selectedId}>{user.name}</option>)
     })
     return (
@@ -42,6 +43,10 @@ class UserSelector extends Component {
         {options}
       </select>
     )
+  }
+
+  static propTypes = {
+    selectedId: PropTypes.number,
   }
 }
 

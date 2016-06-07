@@ -21,16 +21,18 @@ export default class App extends Component {
     return (
       <div>
         <RootContainer
-          Component={UserSelector}
-          route={new UserSelectorRoute()}
-          renderLoading={() => (<div>{'loading...'}</div>)}
-          renderFailure={() => (<div>{'error'}</div>)}
-        />
-        <RootContainer
           Component={ProfilePicture}
           route={new ProfileRoute({userID: this.props.selectedId})}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
+          onReadyStateChange={state => console.log('profile', state)}
+        />
+        <RootContainer
+          Component={UserSelector}
+          route={new UserSelectorRoute()}
+          renderLoading={() => (<div>{'loading...'}</div>)}
+          renderFailure={() => (<div>{'error'}</div>)}
+          onReadyStateChange={state => console.log('user', state)}
         />
       </div>
     );
