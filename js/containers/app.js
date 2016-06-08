@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import Relay, {RootContainer} from 'react-relay'
-import ProfilePicture from './profile_picture'
+import User from './user'
 import ProfileRoute from '../relay/profile_route'
 import UserSelector from './user_selector'
-import UserSelectorRoute from '../relay/user_selector_route'
+import UsersRoute from '../relay/users_route'
 import {connect} from 'react-redux'
 
 
@@ -21,18 +21,19 @@ export default class App extends Component {
     return (
       <div>
         <RootContainer
-          Component={ProfilePicture}
+          Component={User}
           route={new ProfileRoute({userID: this.props.selectedId})}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
           onReadyStateChange={state => console.log('profile', state)}
         />
+
         <RootContainer
           Component={UserSelector}
-          route={new UserSelectorRoute()}
+          route={new UsersRoute()}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
-          onReadyStateChange={state => console.log('user', state)}
+          onReadyStateChange={state => console.log('users', state)}
         />
       </div>
     );

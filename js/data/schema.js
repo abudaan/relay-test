@@ -70,13 +70,13 @@ const getProfilePicture = function(user, size){
 const getUser = function(id){
   let user = new User(userData[id])
 
-  //return user
+  return user
 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(user)
-    }, 2000)
-  })
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(user)
+  //   }, 2000)
+  // })
 }
 
 const getAllUsers = function(){

@@ -9,9 +9,9 @@ let initialState = {
 function user(state = initialState, action){
   switch(action.type){
     case actions.CHANGE_USER:
-      return Object.assign({}, state, {selectedId: action.id})
+      return {... state, selectedId: action.id}
     case actions.CHANGE_SIZE:
-      return Object.assign({}, state, {size: action.size})
+      return {... state, size: action.size}
     default:
       return state
   }

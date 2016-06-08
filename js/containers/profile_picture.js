@@ -5,7 +5,7 @@ import {setSize} from '../actions/'
 
 
 const mapStateToProps = function(state){
-  const {size} = state.size
+  const {size} = state.user
   return {
     size
   }
@@ -83,7 +83,7 @@ class ProfilePicture extends Component {
 
 export default Relay.createContainer(ProfilePicture, {
   initialVariables: {
-    size: 44
+    size: 128
   },
   fragments: {
     user: () => Relay.QL`
@@ -130,3 +130,4 @@ export default Relay.createContainer(ProfilePicture, {
   },
 });
 */
+
