@@ -3,20 +3,20 @@ schema {
 }
 
 type profilePicture {
-  uri: String
+  url: String
   size: Int
 }
 
 type Query {
   users: Users
-  user(id: String, size: Int): User
+  user(id: String): User
   profilePicture(userid: String, size: Int): profilePicture
 }
 
 type User {
   id: String
   name: String
-  profilePhoto: profilePicture
+  profilePicture: profilePicture
 }
 
 type Users {

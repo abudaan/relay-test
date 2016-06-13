@@ -37,16 +37,6 @@
                     "ofType": null
                   },
                   "defaultValue": null
-                },
-                {
-                  "name": "size",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
                 }
               ],
               "type": {
@@ -153,7 +143,7 @@
               "deprecationReason": null
             },
             {
-              "name": "profilePhoto",
+              "name": "profilePicture",
               "description": "The profile picture of the user",
               "args": [],
               "type": {
@@ -186,8 +176,8 @@
           "description": "Profile picture",
           "fields": [
             {
-              "name": "uri",
-              "description": "uri of picture",
+              "name": "url",
+              "description": "url of picture",
               "args": [],
               "type": {
                 "kind": "SCALAR",

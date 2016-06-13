@@ -3,7 +3,8 @@ import Relay, {RootContainer} from 'react-relay'
 import User from './user'
 import UserSelector from './user_selector'
 import {connect} from 'react-redux'
-import {selectUser} from '../actions/'
+import {setSize, selectUser} from '../actions/'
+import UserRoute from '../relay/user_route'
 
 
 const routeUsers = {
@@ -17,25 +18,11 @@ const routeUsers = {
   },
 }
 
-const routeProfilePicture = {
-  name: 'ProfilePictureRoute',
-  params: {
-    size: {required: true},
-    userid: {required: true}
-  },
-  queries: {
-    user: () => Relay.QL`
-      query {
-        user(userid: $userid, size: $size)
-      }`
-  }
-}
-
 const mapStateToProps = function(state){
-  const {selectedId} = state.user
+  const {selectedUserId, profilePictureSize} = state.user
   return {
-    selectedId,
-    selectUser,
+    selectedUserId,
+    profilePictureSize,
   }
 }
 
@@ -44,7 +31,15 @@ const mapDispatchToProps = function(dispatch){
     selectUser: (e) => {
       let options = e.target.options
       let optionId = options[e.target.selectedIndex].id
+      //console.log(optionId)
       dispatch(selectUser(optionId))
+    },
+    selectSize: (e) => {
+      let options = e.target.options
+      let optionId = parseInt(options[e.target.selectedIndex].id, 10)
+      if(optionId !== this.props.profilePictureSize){
+        dispatch(setSize(optionId))
+      }
     }
   }
 }
@@ -52,27 +47,45 @@ const mapDispatchToProps = function(dispatch){
 @connect(mapStateToProps, mapDispatchToProps)
 export default class App extends Component {
   render() {
+
+    //console.log(this.props)
+
+    let selector = (
+      <RootContainer
+        Component={UserSelector}
+        route={routeUsers}
+        renderLoading={() => (<div>{'loading...'}</div>)}
+        renderFailure={() => (<div>{'error'}</div>)}
+        renderFetched={data =>
+          <UserSelector {...data} selectUser={this.props.selectUser} selectedUserId={this.props.selectedUserId} />
+        }
+        //onReadyStateChange={state => console.log('users', state)}
+      />)
+
+    let user = (
+      <RootContainer
+        Component={User}
+        route={new UserRoute({id: this.props.selectedUserId})}
+        renderLoading={() => (<div>{'loading...'}</div>)}
+        renderFailure={() => (<div>{'error'}</div>)}
+        renderFetched={data =>
+          <User {...data} selectSize={this.props.selectSize} />
+        }
+        //onReadyStateChange={state => console.log('user', state)}
+      />)
+
+    if(this.props.selectedUserId === 'choose'){
+      return (
+        <div>
+          {selector}
+        </div>)
+    }
+
     return (
       <div>
-        <RootContainer
-          Component={UserSelector}
-          route={routeUsers}
-          renderLoading={() => (<div>{'loading...'}</div>)}
-          renderFailure={() => (<div>{'error'}</div>)}
-          renderFetched={data =>
-            <UserSelector {...data} selectUser={this.props.selectUser} selectedId={this.props.selectedId} />
-          }
-          //onReadyStateChange={state => console.log('users', state)}
-        />
+        {selector}
+        {user}
+      </div>)
 
-        <RootContainer
-          Component={User}
-          route={routeProfilePicture}
-          renderLoading={() => (<div>{'loading...'}</div>)}
-          renderFailure={() => (<div>{'error'}</div>)}
-          //onReadyStateChange={state => console.log('users', state)}
-        />
-      </div>
-    );
   }
 }

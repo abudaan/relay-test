@@ -65,16 +65,19 @@ const getAllUsers = function(){
 }
 
 
-const getUser = function(userid, size){
+const getUser = function(userid){
   let user = usersTable[userid]
-  user.profilePicture = picturesTable[userid][size]
+  user.profilePicture = {
+    url: picturesTable[userid][128]
+  }
   return user
 }
 
 
 const getProfilePicture = function(userid, size){
   return {
-    uri: picturesTable[userid][size],
+    url: picturesTable[userid][size],
+    name: usersTable[userid].name,
     size
   }
 }
@@ -84,9 +87,9 @@ const profilePictureType = new GraphQLObjectType({
   name: 'profilePicture',
   description: 'Profile picture',
   fields: () => ({
-    uri: {
+    url: {
       type: GraphQLString,
-      description: 'uri of picture'
+      description: 'url of picture'
     },
     size: {
       type: GraphQLInt,
@@ -108,9 +111,15 @@ const userType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'The name of the user'
     },
-    profilePhoto: {
+    profilePicture: {
       type: profilePictureType,
       description: 'The profile picture of the user',
+      args: {
+        size: {
+          type: GraphQLInt
+        }
+      },
+      resolve: (root, {size}) => getProfilePicture(size)
     }
   })
 })
@@ -140,11 +149,8 @@ const queryType = new GraphQLObjectType({
         id: {
           type: GraphQLString
         },
-        size: {
-          type: GraphQLInt
-        }
       },
-      resolve: (root, {id, size}) => getUser(id, size)
+      resolve: (root, {id}) => getUser(id)
     },
     profilePicture: {
       type: profilePictureType,
@@ -156,7 +162,6 @@ const queryType = new GraphQLObjectType({
           type: GraphQLInt
         }
       },
-      resolve: (root, {userid, size}) => getProfilePicture(userid, size)
     }
   })
 })

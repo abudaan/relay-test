@@ -3,12 +3,17 @@ import Relay from 'react-relay'
 
 class UserSelector extends Component {
 
+  static propTypes = {
+    selectedId: PropTypes.string,
+  }
+
   render() {
-    console.log(this.props)
+
+    //console.log(this.props)
     let users = this.props.users.users
     let options = [<option id={'choose'} key={'choose'}>{'select a user'}</option>]
     users.map((user) => {
-      options.push(<option id={user.id} key={user.id} disabled={user.id === this.props.selectedId}>{user.name}</option>)
+      options.push(<option id={user.id} key={user.id} disabled={user.id === this.props.selectedUserId}>{user.name}</option>)
     })
 
     return (
@@ -17,12 +22,7 @@ class UserSelector extends Component {
       </select>
     )
   }
-
-  static propTypes = {
-    selectedId: PropTypes.string,
-  }
 }
-
 
 export default Relay.createContainer(UserSelector, {
   fragments: {
