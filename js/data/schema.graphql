@@ -9,13 +9,14 @@ type profilePicture {
 
 type Query {
   users: Users
-  user(userId: Int): User
+  user(id: String, size: Int): User
+  profilePicture(userid: String, size: Int): profilePicture
 }
 
 type User {
-  userId: Int
+  id: String
   name: String
-  profilePhoto(size: Int): profilePicture
+  profilePhoto: profilePicture
 }
 
 type Users {

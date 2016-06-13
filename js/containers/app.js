@@ -1,39 +1,76 @@
 import React, {Component, PropTypes} from 'react'
 import Relay, {RootContainer} from 'react-relay'
 import User from './user'
-import ProfileRoute from '../relay/profile_route'
 import UserSelector from './user_selector'
-import UsersRoute from '../relay/users_route'
 import {connect} from 'react-redux'
+import {selectUser} from '../actions/'
 
+
+const routeUsers = {
+  name: 'Users',
+  params: {},
+  queries: {
+    users: () => Relay.QL`
+      query {
+        users
+      }`
+  },
+}
+
+const routeProfilePicture = {
+  name: 'ProfilePictureRoute',
+  params: {
+    size: {required: true},
+    userid: {required: true}
+  },
+  queries: {
+    user: () => Relay.QL`
+      query {
+        user(userid: $userid, size: $size)
+      }`
+  }
+}
 
 const mapStateToProps = function(state){
   const {selectedId} = state.user
   return {
-    selectedId
+    selectedId,
+    selectUser,
   }
 }
 
-@connect(mapStateToProps)
+const mapDispatchToProps = function(dispatch){
+  return {
+    selectUser: (e) => {
+      let options = e.target.options
+      let optionId = options[e.target.selectedIndex].id
+      dispatch(selectUser(optionId))
+    }
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class App extends Component {
   render() {
-    //console.log(this.props.selectedId)
     return (
       <div>
         <RootContainer
-          Component={User}
-          route={new ProfileRoute({userID: this.props.selectedId})}
+          Component={UserSelector}
+          route={routeUsers}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
-          onReadyStateChange={state => console.log('profile', state)}
+          renderFetched={data =>
+            <UserSelector {...data} selectUser={this.props.selectUser} selectedId={this.props.selectedId} />
+          }
+          //onReadyStateChange={state => console.log('users', state)}
         />
 
         <RootContainer
-          Component={UserSelector}
-          route={new UsersRoute()}
+          Component={User}
+          route={routeProfilePicture}
           renderLoading={() => (<div>{'loading...'}</div>)}
           renderFailure={() => (<div>{'error'}</div>)}
-          onReadyStateChange={state => console.log('users', state)}
+          //onReadyStateChange={state => console.log('users', state)}
         />
       </div>
     );

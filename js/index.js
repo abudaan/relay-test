@@ -9,14 +9,6 @@ import networkLayer from './relay/network_layer'
 
 document.addEventListener('DOMContentLoaded', function(){
 
-  // let state = {
-  //   size: 128,
-  //   userId: 25,
-  // }
-
-  // let state1 = {...state, size: 64}
-  // console.log(state, state1)
-
   Relay.injectNetworkLayer(networkLayer)
 
   ReactDOM.render(

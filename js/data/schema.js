@@ -20,76 +20,67 @@ import {
 } from 'graphql-relay';
 
 
-class User {
-  constructor(settings){
-    ({
-      userId: this.userId,
-      name: this.name,
-      pictures: this.pictures,
-    } = settings)
-  }
-}
-
-const userData = {
+// 'table' users
+let usersTable = {
   23: {
-    userId: 23,
+    id: '23',
     name: 'sloth',
-    pictures: {
-      32: './img/sloth32.jpg',
-      64: './img/sloth64.jpg',
-      128: './img/sloth128.jpg'
-    }
   },
   24: {
-    userId: 24,
+    id: '24',
     name: 'rabbit',
-    pictures: {
-      32: './img/rabbit32.jpg',
-      64: './img/rabbit64.jpg',
-      128: './img/rabbit128.jpg',
-    }
   },
   25: {
-    userId: 25,
+    id: '25',
     name: 'bear',
-    pictures: {
-      32: './img/bear32.jpg',
-      64: './img/bear64.jpg',
-      128: './img/bear128.jpg'
-    }
   }
 }
 
-const getProfilePicture = function(user, size){
+// 'table' pictures
+let picturesTable = {
+  23: {
+    32: './img/sloth32.jpg',
+    64: './img/sloth64.jpg',
+    128: './img/sloth128.jpg'
+  },
+  24: {
+    32: './img/rabbit32.jpg',
+    64: './img/rabbit64.jpg',
+    128: './img/rabbit128.jpg'
+  },
+  25: {
+    32: './img/bear32.jpg',
+    64: './img/bear64.jpg',
+    128: './img/bear128.jpg'
+  },
+}
+
+
+const getAllUsers = function(){
+  let users = []
+  Object.entries(usersTable).forEach(entry => {
+    users.push(entry[1])
+  })
+  return {users}
+}
+
+
+const getUser = function(userid, size){
+  let user = usersTable[userid]
+  user.profilePicture = picturesTable[userid][size]
+  return user
+}
+
+
+const getProfilePicture = function(userid, size){
   return {
-    uri: user.pictures[size],
+    uri: picturesTable[userid][size],
     size
   }
 }
 
-const getUser = function(id){
-  let user = new User(userData[id])
 
-  return user
-
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve(user)
-  //   }, 2000)
-  // })
-}
-
-const getAllUsers = function(){
-  let users = []
-
-  Object.entries(userData).forEach(entry => {
-    users.push(new User(entry[1]))
-  })
-  // console.log(users)
-  return {users}
-}
-
-const profilePicture = new GraphQLObjectType({
+const profilePictureType = new GraphQLObjectType({
   name: 'profilePicture',
   description: 'Profile picture',
   fields: () => ({
@@ -107,25 +98,19 @@ const profilePicture = new GraphQLObjectType({
 
 const userType = new GraphQLObjectType({
   name: 'User',
-  description: 'A user.',
+  description: 'A user',
   fields: () => ({
-    userId: {
-      type: GraphQLInt,
+    id: {
+      type: GraphQLString,
       description: 'The database id of the user'
     },
     name: {
       type: GraphQLString,
-      description: 'The name of the user.'
+      description: 'The name of the user'
     },
     profilePhoto: {
-      type: profilePicture,
+      type: profilePictureType,
       description: 'The profile picture of the user',
-      args: {
-        size: {
-          type: GraphQLInt
-        }
-      },
-      resolve: (root, {size}) => getProfilePicture(root, size)
     }
   })
 })
@@ -141,6 +126,7 @@ const usersType = new GraphQLObjectType({
   })
 })
 
+
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
@@ -151,11 +137,26 @@ const queryType = new GraphQLObjectType({
     user: {
       type: userType,
       args: {
-        userId: {
+        id: {
+          type: GraphQLString
+        },
+        size: {
           type: GraphQLInt
         }
       },
-      resolve: (root, {userId}) => getUser(userId)
+      resolve: (root, {id, size}) => getUser(id, size)
+    },
+    profilePicture: {
+      type: profilePictureType,
+      args: {
+        userid: {
+          type: GraphQLString
+        },
+        size: {
+          type: GraphQLInt
+        }
+      },
+      resolve: (root, {userid, size}) => getProfilePicture(userid, size)
     }
   })
 })
